@@ -28,7 +28,7 @@ to power Hugging Chat, the Inference API and Inference Endpoint.
   - [Local Install](#local-install)
   - [CUDA Kernels](#cuda-kernels)
 - [Optimized architectures](#optimized-architectures)
-- [Run Falcon](#run-falcon)
+- [Run URA-LLaMa](#run-ura-llama)
   - [Run](#run)
   - [Quantization](#quantization)
 - [Develop](#develop)
@@ -59,7 +59,7 @@ Text Generation Inference (TGI) is a toolkit for deploying and serving Large Lan
 For a detailed starting guide, please see the [Quick Tour](https://huggingface.co/docs/text-generation-inference/quicktour). The easiest way of getting started is using the official Docker container:
 
 ```shell
-model=HuggingFaceH4/zephyr-7b-beta
+model=ura-hcmut/ura-llama-7b
 volume=$PWD/data # share a volume with the Docker container to avoid downloading weights every run
 
 docker run --gpus all --shm-size 1g -p 8080:80 -v $volume:/data ghcr.io/huggingface/text-generation-inference:1.1.1 --model-id $model
@@ -100,7 +100,7 @@ For example, if you want to serve the gated Llama V2 model variants:
 or with Docker:
 
 ```shell
-model=meta-llama/Llama-2-7b-chat-hf
+model=ura-hcmut/ura-llama-7b
 volume=$PWD/data # share a volume with the Docker container to avoid downloading weights every run
 token=<your cli READ token>
 
@@ -178,13 +178,31 @@ Then run:
 
 ```shell
 BUILD_EXTENSIONS=True make install # Install repository and HF/transformer fork with CUDA kernels
-make run-falcon-7b-instruct
+make run-ura-llama-7b
 ```
 
 **Note:** on some machines, you may also need the OpenSSL libraries and gcc. On Linux machines, run:
 
 ```shell
 sudo apt-get install libssl-dev gcc -y
+```
+
+Additionally, we need to install some more extensions:
+```
+cd server
+make install-awq
+make install-eetq
+make install-flash-attention-v2
+make install-vllm
+
+cd flash-attention-v2/csrc/ft_attention && python setup.py install
+cd flash-attention-v2/csrc/fused_dense_lib && python setup.py install
+cd flash-attention-v2/csrc/fused_softmax && python setup.py install
+cd flash-attention-v2/csrc/layer_norm && python setup.py install
+cd flash-attention-v2/csrc/rotary && python setup.py install
+cd flash-attention-v2/csrc/xentropy && python setup.py install
+
+cd ../
 ```
 
 ### CUDA Kernels
@@ -208,12 +226,12 @@ or
 
 
 
-## Run Falcon
+## Run URA-LLaMa
 
 ### Run
 
 ```shell
-make run-falcon-7b-instruct
+make run-ura-llama-7b
 ```
 
 ### Quantization
@@ -221,7 +239,7 @@ make run-falcon-7b-instruct
 You can also quantize the weights with bitsandbytes to reduce the VRAM requirement:
 
 ```shell
-make run-falcon-7b-instruct-quantize
+make run-ura-llama-7b-quantize
 ```
 
 4bit quantization is available using the [NF4 and FP4 data types from bitsandbytes](https://arxiv.org/pdf/2305.14314.pdf). It can be enabled by providing `--quantize bitsandbytes-nf4` or `--quantize bitsandbytes-fp4` as a command line argument to `text-generation-launcher`.
