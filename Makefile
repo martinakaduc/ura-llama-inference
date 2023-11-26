@@ -42,11 +42,29 @@ python-client-tests:
 
 python-tests: python-server-tests python-client-tests
 
+run-ura-llama-7b:
+	text-generation-launcher --model-id ura-hcmut/ura-llama-7b --port 8080
+
+run-ura-llama-7b-quantize:
+	text-generation-launcher --model-id ura-hcmut/ura-llama-7b  --quantize eetq --port 8080
+
+run-ura-llama-13b:
+	text-generation-launcher --model-id ura-hcmut/ura-llama-13b --port 8080
+
+run-ura-llama-13b-quantize:
+	text-generation-launcher --model-id ura-hcmut/ura-llama-13b  --quantize eetq --port 8080
+
+run-ura-llama-70b:
+	text-generation-launcher --model-id ura-hcmut/ura-llama-70b --port 8080
+
+run-ura-llama-70b-quantize:
+	text-generation-launcher --model-id ura-hcmut/ura-llama-70b  --quantize eetq --port 8080
+
 run-falcon-7b-instruct:
 	text-generation-launcher --model-id tiiuae/falcon-7b-instruct --port 8080
 
 run-falcon-7b-instruct-quantize:
-	text-generation-launcher --model-id tiiuae/falcon-7b-instruct --quantize bitsandbytes --port 8080
+	text-generation-launcher --model-id tiiuae/falcon-7b-instruct --quantize eetq --port 8080
 
 clean:
 	rm -rf target aml
