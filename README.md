@@ -195,14 +195,15 @@ make install-eetq
 make install-flash-attention-v2
 make install-vllm
 
-cd flash-attention-v2/csrc/ft_attention && python setup.py install
-cd flash-attention-v2/csrc/fused_dense_lib && python setup.py install
-cd flash-attention-v2/csrc/fused_softmax && python setup.py install
-cd flash-attention-v2/csrc/layer_norm && python setup.py install
-cd flash-attention-v2/csrc/rotary && python setup.py install
-cd flash-attention-v2/csrc/xentropy && python setup.py install
+cd flash-attention-v2/csrc
+cd ft_attention && python setup.py install && cd ..
+cd fused_dense_lib && python setup.py install && cd ..
+cd fused_softmax && python setup.py install && cd ..
+cd layer_norm && python setup.py install && cd ..
+cd rotary && python setup.py install && cd ..
+cd xentropy && python setup.py install && cd ..
 
-cd ../
+cd ../../../
 ```
 
 ### CUDA Kernels
