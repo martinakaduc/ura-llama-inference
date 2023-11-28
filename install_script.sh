@@ -13,6 +13,8 @@ sudo unzip -o $PROTOC_ZIP -d /usr/local bin/protoc
 sudo unzip -o $PROTOC_ZIP -d /usr/local 'include/*'
 rm -f $PROTOC_ZIP
 
+sudo apt-get install libssl-dev gcc -y
+
 BUILD_EXTENSIONS=True make install
 
 cd server
