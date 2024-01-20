@@ -20,8 +20,9 @@ BUILD_EXTENSIONS=True make install
 cd server
 make install-awq
 make install-eetq
-make install-flash-attention-v2
-make install-vllm
+make install-flash-attention
+make install-flash-attention-v2-cuda
+make install-vllm-cuda
 
 cd flash-attention-v2/csrc
 cd ft_attention && python setup.py install && cd ..
